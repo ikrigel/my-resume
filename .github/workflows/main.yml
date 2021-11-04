@@ -1,0 +1,134 @@
+# This is a basic workflow to help you get started with Actions
+
+name: CI
+
+# Controls when the workflow will run
+on:
+  # Triggers the workflow on push or pull request events but only for the main branch
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+
+  # Allows you to run this workflow manually from the Actions tab
+  workflow_dispatch:
+
+# A workflow run is made up of one or more jobs that can run sequentially or in parallel
+jobs:
+  # This workflow contains a single job called "build"
+  build:
+    # The type of runner that the job will run on
+    runs-on: ubuntu-latest
+
+    # Steps represent a sequence of tasks that will be executed as part of the job
+    steps:
+      # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
+      - uses: actions/checkout@v2
+
+      # Runs a single command using the runners shell
+      - name: Run a one-line script
+        run: echo Hello, world!
+
+      # Runs a set of commands using the runners shell
+      - name: Run a multi-line script
+        run: |
+          echo Add other actions to build,
+          echo test, and deploy your project.
+          
+          - name: Heroku pipelines promoting
+  # You may pin to the exact commit or the version.
+  # uses: NikitaGlukhi/heroku-pipelines-promoting@b21acba86f406e9cbd2b369c6811ce6bfa825772
+  uses: NikitaGlukhi/heroku-pipelines-promoting@v2
+  with:
+    # This will be used for authentication. You can find it in your heroku homepage account settings
+    heroku_api_key: 
+    # Email that you use with heroku
+    heroku_email: 
+    # The app name, that will be promoted
+    heroku_app_name: 
+    # The app(-s), where will be promoted heroku_app_name
+    heroku_promote_to_app: # optional
+    
+   - name: Heroku Review App Deployment Status
+  # You may pin to the exact commit or the version.
+  # uses: niteoweb/reviewapps-deploy-status@82f706f07b4acd9ebb031f1eac2bd9c0fd82f159
+  uses: niteoweb/reviewapps-deploy-status@v1.4.0
+  with:
+    # Comma separated list of checks to perform.
+    checks: # optional, default is build, response
+    # Delay for the build stage of the review app.
+    build_time_delay: # optional, default is 5
+    # Delay for the app to load and start serving after it is built.
+    load_time_delay: # optional, default is 5
+    # Interval to repeat the deployment check in seconds.
+    interval: # optional, default is 10
+    # Comma separated status which can be accepted.
+    accepted_responses: # optional, default is 200
+    # Maximum waiting time to fetch the deployments.
+    deployments_timeout: # optional, default is 120
+    # Maximum time to spend retrying the HTTP response check until it succeeds.
+    publish_timeout: # optional, default is 120
+    
+name: Deploy
+
+on:
+  push:
+    branches:
+      - master
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - uses: akhileshns/heroku-deploy@v3.12.12 # This is the action
+        with:
+          heroku_api_key: ${{secrets.HEROKU_API_KEY}}
+          heroku_app_name: "YOUR APP's NAME" #Must be unique in Heroku
+          heroku_email: "YOUR EMAIL"
+          usedocker: true
+          
+          name: Deploy
+
+on:
+  push:
+    branches:
+      - master
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - uses: akhileshns/heroku-deploy@v3.12.12 # This is the action
+        with:
+          heroku_api_key: ${{secrets.HEROKU_API_KEY}}
+          heroku_app_name: "YOUR APP's NAME" #Must be unique in Heroku
+          heroku_email: "YOUR EMAIL"
+          usedocker: true
+          docker_build_args: |
+            NODE_ENV
+            SECRET_KEY
+        env:
+          NODE_ENV: production
+          SECRET_KEY: ${{ secrets.MY_SECRET_KEY }}
+          
+          
+          name: Deploy
+
+on:
+  push:
+    branches:
+      - master
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - uses: akhileshns/heroku-deploy@v3.12.12 # This is the action
+        with:
+          heroku_api_key: ${{secrets.HEROKU_API_KEY}}
+          heroku_app_name: "YOUR APP's NAME" #Must be unique in Heroku
+          heroku_email: "YOUR EMAIL"
+          buildpack: "https://github.com/HashNuke/heroku-buildpack-elixir.git"
