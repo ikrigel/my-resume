@@ -1,0 +1,60 @@
+* {
+  box-sizing: border-box;
+}
+/* html{
+    border: solid;
+} */
+
+/* #main {
+    border: 1px solid red;
+  } */
+
+body {
+  font-family: Arial, Helvetica, sans-serif;
+  border-style: solid;
+  
+ 
+  
+  
+  
+  height: fit-content;
+  background-image: url("https://thumbs.dreamstime.com/z/business-background-resume-vector-cv-job-meeting-theme-illustration-40518844.jpg");
+  background-repeat: no-repeat;
+  background-size: 100%;
+  
+}
+
+/* Style the header */
+.header {
+  background-color: #f1f1f1;
+  padding: 30px;
+  text-align: center;
+  font-size: 35px;
+  margin: 5%;
+  border-style: solid;
+}
+
+/* Create three unequal columns that floats next to each other */
+.column {
+  float: left;
+  padding: 10px;
+  height: 300px; /* Should be removed. Only for demonstration */
+  width: 40%;
+  margin: 5%;
+  border-style: solid;
+}
+
+/* Left and right column */
+.column .side {
+  width: 40%;
+  margin: 5%;
+
+  text-align: left;
+}
+
+/* Clear floats after the columns */
+.row:after {
+  content: "";
+  display: table;
+  clear: both;
+}
